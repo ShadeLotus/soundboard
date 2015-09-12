@@ -1,13 +1,11 @@
 'use strict';
 angular.module('main')
-.directive('soundButton', function ($interval, SoundProgress, DEFAULT_PROGRESS_DELAY) {
+.directive('soundButton', function ($interval, SoundProgress, DEFAULT_PROGRESS_DELAY, SOUND_DIR) {
   return {
-    controller: 'SoundButtonCtrl as ctrl',
     template: '<div class="sound-button button button-positive"><div class="button-text">Play</div></div>',
     restrict: 'E',
     scope: {
-      soundAttr: '=',
-      delay: '@'
+      soundAttr: '=sound'
     },
     link: function postLink (scope, element, attrs) {
       var directive = this;
@@ -49,6 +47,7 @@ angular.module('main')
       };
 
       var startProgressBar = function () {
+        console.log('starting progress bar');
         createProgressBar();
         directive.progressBarInterval = $interval(function () {
           updateProgressBar();
@@ -77,7 +76,6 @@ angular.module('main')
 
       var playStart = function () {
         console.log('playing sound', sound);
-        playStart();
         sound.play();
         hidePlay();
         showStop();

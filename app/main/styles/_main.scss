@@ -1,0 +1,44 @@
+.sound-button-list {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  background: url('/main/assets/images/light-blue-geometry.png');
+}
+
+.sound-button-list .scroll {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.sound-button-list .scroll {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.sound-button {
+  margin: 10px;
+  flex: 1 0 auto;
+  display: flex;
+  width: 20%;
+  border-color: $dark;
+
+  .button {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    resize: vertical;
+    align-items: center;
+  }
+}
+
+@media (max-width: $grid-responsive-sm-break) {
+  .sound-button-list {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background: url('/main/assets/images/light-blue-geometry.png');
+  }
+}
+

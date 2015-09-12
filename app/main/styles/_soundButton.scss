@@ -1,0 +1,37 @@
+.progress {
+  background-color: #203040;
+  height: 10px;
+}
+
+.button-text {
+  margin: 0;
+  padding: 20px;
+}
+
+.sound-button {
+  margin: 10px;
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  resize: vertical;
+  align-items: center;
+  width: 20%;
+
+  &.button {
+    border-color: $dark;
+  }
+}
+
+.sound-button:hover {
+  background-color: $calm;
+}
+
+@media (max-width: $grid-responsive-sm-break) {
+  .sound-button {
+    width: 40%;
+  }
+
+  .button-text {
+    padding: 5px;
+  }
+}

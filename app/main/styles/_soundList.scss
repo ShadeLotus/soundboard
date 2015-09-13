@@ -1,0 +1,10 @@
+sound-list {
+  display: flex;
+  flex: 1 0 auto;
+  flex-wrap: wrap;
+
+  select {
+    display: flex;
+    flex: 1 100%;
+  }
+}

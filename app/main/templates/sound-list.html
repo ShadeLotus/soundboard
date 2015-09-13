@@ -1,0 +1,2 @@
+<select ng-model="soundPackage" ng-options="packageName for (packageName, packageContents) in packages"></select>
+<sound-button sound="sound" ng-repeat="sound in soundPackage.sounds"></sound-button>

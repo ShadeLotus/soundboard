@@ -96,6 +96,8 @@ angular.module('main')
         }
         startProgressBar();
       };
+
+      showPlay();
       element.on('click', playStart);
     }
   };

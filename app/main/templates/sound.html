@@ -1,7 +1,5 @@
 <ion-view view-title="Soundboard">
   <ion-content class="sound-button-list">
-    <div class='sound-button-container' ng-repeat="sound in ctrl.sounds">
-      <sound-button sound='sound'></sound-button>
-    </div>
+    <sound-list packages="ctrl.packages"></sound-list>
   </ion-content>
 </ion-view>

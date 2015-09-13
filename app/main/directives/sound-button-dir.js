@@ -89,6 +89,11 @@ angular.module('main')
         sound.play();
         hidePlay();
         showStop();
+        if (!sound.loop) {
+          sound.onended = function () {
+            playStop();
+          };
+        }
         startProgressBar();
       };
       element.on('click', playStart);

@@ -21,8 +21,13 @@ angular.module('main')
       var serviceData = {};
       serviceData.sound = new Audio(SOUND_DIR + '/' + scope.soundAttr.src);
       serviceData.buttonRootElement = element[0];
-      serviceData.buttonTextContainerElement = serviceData.buttonRootElement.firstChild;
-      serviceData.buttonTextElement = serviceData.buttonTextContainerElement.firstChild;
+      serviceData.buttonContainerElement = serviceData.buttonRootElement.children[0];
+      serviceData.buttonProgressElement = serviceData.buttonContainerElement.children[1];
+      serviceData.buttonProgressBarElement = serviceData.buttonProgressElement.children[0];
+      serviceData.buttonTextElement = serviceData.buttonContainerElement.children[0];
+
+      console.log('serviceData.buttonProgressBarElement', serviceData.buttonProgressBarElement);
+      console.log('serviceData.buttonProgressElement', serviceData.buttonProgressElement);
 
       serviceData.sound.loop = scope.soundAttr.loop;
 
@@ -32,46 +37,40 @@ angular.module('main')
       };
 
       var showStop = function () {
+        console.log('show stop');
         serviceData.buttonTextElement.innerHTML = 'Stop';
         element.on('click', playStop);
       };
 
       var hidePlay = function () {
+        console.log('hide play');
         serviceData.buttonTextElement.innerHtml = '';
         element.off('click', playStart);
       };
 
       var showPlay = function () {
-        serviceData.buttonTextElement.innerHTML = 'Play';
+        console.log('show play');
+        serviceData.buttonTextElement.innerHTML = serviceData.sound.loop ? 'Loop' : 'Play';
         element.on('click', playStart);
-      };
-
-      var createProgressBar = function () {
-        var bar = document.createElement('div');
-        bar.classList.add('progress');
-        serviceData.buttonRootElement.appendChild(bar);
-        serviceData.progressBarElement = bar;
-        updateProgressBar();
       };
 
       var startProgressBar = function () {
         console.log('starting progress bar');
-        createProgressBar();
+        updateProgressBar();
         serviceData.progressBarInterval = $interval(function () {
           updateProgressBar();
         }, DEFAULT_PROGRESS_DELAY);
-
       };
 
       var stopProgressBar = function () {
         console.log('stopping progress bar');
-        serviceData.progressBarElement.remove();
-        delete serviceData.progressBarElement;
+        updateProgressBar();
         $interval.cancel(serviceData.progressBarInterval);
       };
 
       var updateProgressBar = function () {
-        serviceData.progressBarElement.width = SoundProgress.getProgress(serviceData.sound) + '%';
+        serviceData.buttonProgressBarElement.style.width = SoundProgress.getProgress(serviceData.sound) + '%';
+        console.log('updating progress bar', serviceData.buttonProgressBarElement.style.width);
       };
 
       var playStop = function () {

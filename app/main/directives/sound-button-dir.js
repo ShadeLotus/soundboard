@@ -2,7 +2,13 @@
 angular.module('main')
 .directive('soundButton', function ($interval, SoundProgress, DEFAULT_PROGRESS_DELAY, SOUND_DIR) {
   return {
-    template: '<div class="sound-button button button-positive"><div class="button-text">Play</div></div>',
+    template:
+      '<div class="sound-button__button button button-positive">' +
+        '<div class="sound-button__text"></div>' +
+        '<div class="sound-button__progress">' +
+          '<div class="sound-button__bar"></div>' +
+        '</div>' +
+      '</div>',
     restrict: 'E',
     scope: {
       soundAttr: '=sound'

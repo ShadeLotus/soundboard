@@ -1,17 +1,28 @@
+sound-button {
+  display: flex;
+  flex: 1 1 auto;
+  width: 50%;
+}
+
 .sound-button__text {
   margin: 0;
   padding: 20px;
+  display: flex;
+  flex: 1;
+  align-items: center;
 }
 
 .sound-button__button {
+  padding: 0;
   margin: 10px;
   flex: 1 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   resize: vertical;
   align-items: center;
-  width: 20%;
   border-color: $dark;
+  width: 50%;
 }
 
 .sound-button__button:hover {
@@ -21,12 +32,14 @@
 .sound-button__progress {
   background-color: #203040;
   height: 10px;
+  width: 100%;
 }
 
 .sound-button__bar {
   background-color: #777;
   height: 6px;
   margin: 2px;
+  width: 0;
 }
 
 

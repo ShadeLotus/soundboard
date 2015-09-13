@@ -1,28 +1,17 @@
 'use strict';
 angular.module('main')
-.controller('SoundCtrl', function () {
+.controller('SoundCtrl', function (Api) {
 
   console.log('Sounds controller loaded');
+  var ctrl = this;
 
-  this.packages = {
-    'default': {
-      sounds: [
-        {loop: true, src: 'default/bell.mp3'},
-        {loop: true, src: 'default/bell.mp3'},
-        {loop: false, src: 'default/bell.mp3'},
-        {loop: false, src: 'default/bell.mp3'}
-      ]
-    },
-    'christmas': {
-      sounds: [
-        {loop: false, src: 'default/bell.mp3'},
-        {loop: false, src: 'default/bell.mp3'},
-        {loop: true, src: 'default/bell.mp3'},
-        {loop: true, src: 'default/bell.mp3'}
-      ]
-    }
-  };
+  Api.getPackages().then(function (packages) {
+    ctrl.packages = packages;
+  }, function (error) {
+    console.log('error retrieiving packages: ' + error);
+  });
 
   console.log('Packages: ', this.packages);
 
 });
+

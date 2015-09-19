@@ -4,19 +4,13 @@ Feature: Progress bar on sound buttons
   So that I feel more in control of my sound experience
 
   Background:
-    Given the following sound pack:
+    Given the following sound packs:
       | id | name      |
       | 1  | default   |
     And the following sounds:
       | id | filename   | loop  | pack_id |
       | 1  | bell1.mp3  | true  | 1       |
       | 2  | bell2.mp3  | true  | 1       |
-      | 3  | bell3.mp3  | true  | 1       |
-      | 4  | bell4.mp3  | true  | 1       |
-      | 5  | bell5.mp3  | false | 1       |
-      | 6  | bell6.mp3  | false | 1       |
-      | 7  | bell7.mp3  | false | 1       |
-      | 8  | bell8.mp3  | false | 1       |
     And the following user:
       | id | email           | accessToken             | default_soundpack |
       | 1  | chad@gmail.com  | 1.2.3.4.5-thats-amazing | 1                 |

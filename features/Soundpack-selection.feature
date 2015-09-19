@@ -4,28 +4,16 @@ Feature: User can pick from their soundpacks
   So that I can access limitless diversity in sounds
 
   Background:
-    Given the following sound pack:
+    Given the following sound packs:
       | id | name      |
       | 1  | default   |
       | 2  | christmas |
     And the following sounds:
       | id | filename   | loop  | pack_id |
       | 1  | bell1.mp3  | true  | 1       |
-      | 2  | bell2.mp3  | true  | 1       |
-      | 3  | bell3.mp3  | true  | 1       |
-      | 4  | bell4.mp3  | true  | 1       |
-      | 5  | bell5.mp3  | false | 1       |
-      | 6  | bell6.mp3  | false | 1       |
-      | 7  | bell7.mp3  | false | 1       |
-      | 8  | bell8.mp3  | false | 1       |
-      | 9  | bell9.mp3  | false | 2       |
-      | 10 | bell10.mp3 | false | 2       |
-      | 11 | bell11.mp3 | false | 2       |
-      | 12 | bell12.mp3 | false | 2       |
-      | 13 | bell13.mp3 | true  | 2       |
-      | 14 | bell14.mp3 | true  | 2       |
-      | 15 | bell15.mp3 | true  | 2       |
-      | 16 | bell16.mp3 | true  | 2       |
+      | 2  | bell2.mp3  | false | 1       |
+      | 3  | bell3.mp3  | false | 2       |
+      | 4  | bell4.mp3  | true  | 2       |
     And the following users:
       | id | email           | accessToken             | default_soundpack_id |
       | 1  | chad@gmail.com  | 1.2.3.4.5-thats-amazing | 2                    |

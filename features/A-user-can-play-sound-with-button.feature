@@ -1,22 +1,16 @@
-Feature: User can play one of the 8 sounds
+Feature: User can play one of the sounds in their soundpack
   As an app user
   I want to click a button to play a sound
   So that I can enhance my life with sound clips
 
   Background:
-    Given the following sound pack:
+    Given the following sound packs:
       | id | name      |
       | 1  | default   |
     And the following sounds:
       | id | filename   | loop  | pack_id |
       | 1  | bell1.mp3  | true  | 1       |
       | 2  | bell2.mp3  | true  | 1       |
-      | 3  | bell3.mp3  | true  | 1       |
-      | 4  | bell4.mp3  | true  | 1       |
-      | 5  | bell5.mp3  | false | 1       |
-      | 6  | bell6.mp3  | false | 1       |
-      | 7  | bell7.mp3  | false | 1       |
-      | 8  | bell8.mp3  | false | 1       |
     And the following user:
       | id | email           | accessToken             | default_soundpack |
       | 1  | chad@gmail.com  | 1.2.3.4.5-thats-amazing | 1                 |

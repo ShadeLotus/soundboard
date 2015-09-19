@@ -7,7 +7,7 @@ Feature: New and existing app users can login
     Given the following user:
       | id | email                | accessToken             | default_soundpack |
       | 1  | chad@gmail.com       | 1.2.3.4.5-thats-amazing | 1                 |
-    And the following sound pack:
+    And the following sound packs:
       | id | name      |
       | 1  | default   |
 

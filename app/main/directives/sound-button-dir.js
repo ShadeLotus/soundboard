@@ -19,12 +19,13 @@ angular.module('main')
       console.log('Sound src: ', scope.soundAttr.src);
 
       var serviceData = {};
-      serviceData.sound = new Audio(SOUND_DIR + '/' + scope.soundAttr.src);
       serviceData.buttonRootElement = element[0];
       serviceData.buttonContainerElement = serviceData.buttonRootElement.children[0];
       serviceData.buttonProgressElement = serviceData.buttonContainerElement.children[1];
       serviceData.buttonProgressBarElement = serviceData.buttonProgressElement.children[0];
       serviceData.buttonTextElement = serviceData.buttonContainerElement.children[0];
+      serviceData.sound = new Audio(SOUND_DIR + '/' + scope.soundAttr.src);
+      serviceData.buttonRootElement.append(serviceData.sound);
 
       console.log('serviceData.buttonProgressBarElement', serviceData.buttonProgressBarElement);
       console.log('serviceData.buttonProgressElement', serviceData.buttonProgressElement);

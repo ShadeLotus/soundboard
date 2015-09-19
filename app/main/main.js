@@ -2,7 +2,7 @@
 angular.module('main', [
   'ionic',
   'ngCordova',
-  'ui.router',
+  'ui.router'
   // TODO: load other modules selected during generation
 ])
 .config(function ($stateProvider, $urlRouterProvider) {
@@ -19,22 +19,22 @@ angular.module('main', [
       controller: '',
       templateUrl: 'main/templates/tabs.html'
     })
-      .state('main.sound', {
-        url: '/sound',
-        views: {
-          'tab-list': {
-            templateUrl: 'main/templates/sound.html',
-            controller: 'SoundCtrl as ctrl'
-          }
+    .state('main.sound', {
+      url: '/sound',
+      views: {
+        'tab-list': {
+          templateUrl: 'main/templates/sound.html',
+          controller: 'SoundCtrl as ctrl'
         }
-      })
-      .state('main.moreSound', {
-        url: '/more-sound',
-        views: {
-          'tab-debug': {
-            templateUrl: 'main/templates/more-sound.html',
-            controller: 'DebugCtrl as ctrl'
-          }
+      }
+    })
+    .state('main.moreSound', {
+      url: '/more-sound',
+      views: {
+        'tab-debug': {
+          templateUrl: 'main/templates/more-sound.html',
+          controller: 'DebugCtrl as ctrl'
         }
-      });
+      }
+    });
 });

@@ -1,6 +1,8 @@
 // features/support/world.js
 var zombie = require('zombie');
 function World(callback) {
+  //TODO: bootstrap app with test database
+
   this.browser = new zombie(); // this.browser will be available in step definitions
 
   this.visit = function (url, callback) {

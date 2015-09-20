@@ -4,33 +4,56 @@ Feature: New and existing app users can login
   So that I can easily access my homepage
 
   Background:
-    Given the following user:
+    Given a fresh API
+    And the following users:
       | id | email                | accessToken             | default_soundpack |
       | 1  | chad@gmail.com       | 1.2.3.4.5-thats-amazing | 1                 |
     And the following sound packs:
-      | id | name      |
-      | 1  | default   |
+      | id | name      | video    |
+      | 1  | default   | test.mp4 |
+    And the following sounds:
+      | id | filename   | loop  | pack_id |
+      | 1  | bell1.mp3  | false | 1       |
+      | 2  | bell1.mp3  | true  | 1       |
+    And the following soundpack assignments
+      | id | user_id | soundpack_id |
+      | 1  | 1       | 1            |
 
 
-  Scenario: A new app user can login with google oauth
-    Given the user's email is "purple@gmail.com"
-    When the user successfully completes an oauth request
-    Then purple@gmail.com is saved as a user record
-    And an accessToken should be saved for the user
-    And the accessToken should be sent with every subsequent request
-    And the user should see their homepage
+  Scenario: App user can login with google oauth
+    Given local session "user-email" is "<email>"
+    When I click 'button.login'
+    And I wait for 5 seconds
+    Then I should be on the homepage
+    And local session "user-accessToken" is "testToken"
 
-  Scenario: An existing app user can login
-    Given the user's email is "chad@gmail.com"
-    And the current accessToken for the user is 1.2.3.4.5-thats-amazing
-    When the user successfully completes an oauth request
-    Then a new accessToken should be saved to the user
-    And the new accessToken should be returned
-    And the accessToken should be sent with every subsequent request
-    And the user should see their homepage
+    Examples:
+      | email          |
+      | chad@gmail.com |
+      | nada@gmail.com |
 
-  Scenario: An unauthorized user tries to access their homepage
-    Given the user's email is "chad@gmail.com"
-    And the current accessToken for the user is 1.2.3.4.5-thats-amazing
-    When the user visits "/" in the app
-    Then the user is redirected to "/login"
+  Scenario: An authorized user is not redirected
+    Given local session "user-accessToken" is "testToken"
+    When I am on the homepage
+    And I wait for 5 seconds
+    Then I should be on the homepage
+
+    Examples:
+      | value     |
+      | undefined |
+      | null      |
+      | false     |
+      | invalid   |
+
+  Scenario Outline: An unauthorized user tries to access their homepage
+    Given local session "user-accessToken" is "<accessTokenValue>"
+    When I am on the homepage
+    And I wait for 5 seconds
+    Then I should be on '/login'
+
+    Examples:
+      | value     |
+      | undefined |
+      | null      |
+      | false     |
+      | invalid   |

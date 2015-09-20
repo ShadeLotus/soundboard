@@ -4,63 +4,66 @@ Feature: User can pick from their soundpacks
   So that I can access limitless diversity in sounds
 
   Background:
-    Given the following sound packs:
-      | id | name      |
-      | 1  | default   |
-      | 2  | christmas |
+    Given a fresh API
+    And the following sound packs:
+      | id | name      | video    |
+      | 1  | default   | test.mp4 |
+      | 2  | christmas | test.mp4 |
+      | 3  | not-used  | test.mp4 |
     And the following sounds:
       | id | filename   | loop  | pack_id |
-      | 1  | bell1.mp3  | true  | 1       |
-      | 2  | bell2.mp3  | false | 1       |
-      | 3  | bell3.mp3  | false | 2       |
-      | 4  | bell4.mp3  | true  | 2       |
+      | 1  | test-sound.mp3  | true  | 1       |
+      | 2  | test-sound.mp3  | false | 1       |
+      | 3  | test-sound.mp3  | false | 2       |
+      | 4  | test-sound.mp3  | true  | 2       |
+      | 5  | test-sound.mp3  | true  | 2       |
+      | 6  | test-sound.mp3  | false | 3       |
+      | 7  | test-sound.mp3  | true  | 3       |
     And the following users:
-      | id | email           | accessToken             | default_soundpack_id |
-      | 1  | chad@gmail.com  | 1.2.3.4.5-thats-amazing | 2                    |
-      | 2  | lotus@gmail.com | 1.2.3.4.5-luggage       | 1                    |
+      | id | email           | accessToken| default_soundpack_id |
+      | 1  | chad@gmail.com  | testToken1 | 2                    |
+      | 2  | lotus@gmail.com | testToken2 | 1                    |
     And the following soundpack assignments
       | id | user_id | soundpack_id |
       | 1  | 1       | 1            |
       | 2  | 1       | 2            |
       | 3  | 2       | 1            |
-
-  Scenario: User with "default" default_soundpack_id logs in and sees the "default" soundpack
-    Given the user's email is "lotus@gmail.com"
-    When the user visits "/"
-    Then the user sees one button for each sound in the "default" soundpack
-
-  Scenario: User with "christmas" default_soundpack_id logs in and sees the "christmas" soundpack
-    Given the user's email is "chad@gmail.com"
-    When the user visits "/"
-    Then the user sees one button for each sound in the "christmas" soundpack
+    And local session "user-email" is "chad@gmail.com"
+    And local session "accessToken" is "testToken1"
+    And I am on the homepage
 
   Scenario: User is presented with a sound selection type-ahead on the homepage
-    Given the user's email is "chad@gmail.com"
-    When the user visits "/"
-    Then the user should see a type-ahead
+    Then I should see the ".soundpack-typeahead" element
+    And I should see "Default" in the ".soundpack-typeahead" element
 
-  Scenario: User with more than one soundpack can see each soundpack in the type-ahead list
-    Given the user's email is "chad@gmail.com"
-    When the user visits "/"
-    And the user clicks on the type-ahead list
-    Then the user sees a list of all of their soundpacks
+  Scenario: User with more than one soundpack can see each of their assigned soundpacks in the list
+    When I click on ".soundpack-typeahead"
+    Then I should see 2 ".soundpack-option" elements
 
-  Scenario: User can search their soundpacks via the type-ahead text field
-    Given the user's email is "chad@gmail.com"
-    When the user visits "/"
-    And the user clicks in the type-ahead text field
-    And the user enters "christmas" in the text field
-    Then the user should only see "christmas" in the type-ahead list
+  Scenario Outline: User can search their soundpacks via the type-ahead text field
+    When I click on ".soundpack-typeahead"
+    And I type "<soundpack>" into the field
+    Then I should see the ".soundpack-typeahead .<soundpack>-option" element
+    But I should not see the ".soundpack-typeahead .<excluded>-option" element
+
+    Examples:
+      | soundpack | excluded  |
+      | default   | christmas |
+      | christmas | default   |
 
   Scenario: User with more than one soundpack can select between them
-    Given the user's email is "chad@gmail.com"
-    When the user visits "/"
-    And the user clicks on the "christmas" soundpack in the type-ahead list
-    Then the user sees one button for each sound in the "christmas" soundpack
+    When I click on ".soundpack-option.soundpack-<soundpack>"
+    Then I should see <count> ".sound-button" elements
+
+    Examples:
+      | soundpack | count  |
+      | christmas | 3      |
+      | default   | 2      |
 
   Scenario: User with only one soundpack is prompted to add more soundpacks when trying to change soundpacks
-    Given the user's email is "lotus@gmail.com"
-    When the user visits "/"
-    And the user clicks on the type-ahead list
-    Then the user is notified that they can add more soundpacks
-    And the user is offered a link to "/packages"
+    Given local session "user-email" is "lotus@gmail.com"
+    And local session "accessToken" is "testToken2"
+    When I click on ".soundpack-typeahead"
+    Then I should see the ".more-soundpacks-dialog" element
+    And I should see the text matching "Click here for more soundpacks!"
+    And I should see the element "a[href='/packages']"

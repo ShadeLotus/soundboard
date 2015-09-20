@@ -4,70 +4,77 @@ Feature: Users can purchase soundpacks
   So that I can have a greater diversity of sound selections
 
   Background:
-    Given the following sound packs:
-      | id | name      |
-      | 1  | default   |
-      | 2  | cats      |
-      | 3  | christmas |
+    Given a fresh API
+    And the following sound packs:
+      | id | name      | video    |
+      | 1  | default   | test.mp4 |
+      | 2  | cats      | test.mp4 |
+      | 3  | christmas | test.mp4 |
     And the following sounds:
       | id | filename        | loop  | pack_id |
       | 1  | bell1.mp3       | true  | 1       |
       | 2  | cats1.mp3       | true  | 2       |
       | 3  | christmas1.mp3  | true  | 3       |
     And the following user:
-      | id | email           | accessToken             | default_soundpack |
-      | 1  | chad@gmail.com  | 1.2.3.4.5-thats-amazing | 1                 |
+      | id | email           | accessToken | default_soundpack |
+      | 1  | chad@gmail.com  | testToken1  | 1                 |
     And the following soundpack assignments
       | id | user_id | soundpack_id |
       | 1  | 1       | 1            |
       | 2  | 1       | 2            |
-    And the user's email is "chad@gmail.com"
-    And the user is logged in
-    And the user visits "/packages"
+    And local session "user-email" is "chad@gmail.com"
+    And local session "accessToken" is "testToken1"
+    And I am on "/packages"
 
   Scenario: User sees complete list of soundpacks available on purchase page
-    Then the user sees each package in the database
+    Then I should see 3 ".soundpack-list .soundpack-item" elements
+    And I should see "Default" in the ".soundpack-default-1" element
+    And I should see "Cats" in the ".soundpack-cats-2" element
+    And I should see "Christmas" in the ".soundpack-christmas-3" element
 
   Scenario: Users are shown a video thumbnail by each package
-    Then the user sees a video thumbnail by each package in the list
-    And the user sees a play button on the thumbnail
+    Then I should see the ".soundpack-item .video-thumbnail" element
+    And I should see the ".video-thumbnail .play-overlay" element
 
-  Scenario: Users can view video by clicking on thumbnail
-    When the user clicks the video thumbnail on a sound package
-    Then the user sees a youtube embed
-
-  Scenario: Users can view video by long-pressing anywhere on a package
-    When the user long-presses anywhere on the package
-    Then the user sees a youtube embed
+  Scenario: Users can view video by clicking on the play button
+    When I click on ".play-overlay"
+    And I wait 1 second
+    Then I should see the ".full-video" element
+    And the ".full-video video" element should have property "currentTime" with value not "0"
+    And the ".full-video video" element should have property "src" with value matching "test.mp4"
 
   Scenario: User can search list of soundpacks
-    When the user clicks in the search box
-    And the user types "cats"
-    Then the user sees only the "cats" package
-
-  Scenario: Clearing out a search refreshes the package list
-    When the user clicks in the search box
-    And the user types "cats"
-    And the user sees only the "cats" package
-    And the user deletes "cats" form the search box
-    Then the user sees each package in the database
+    When I fill in "input[type='text'].soundpack-search" with "cats"
+    Then I should see the ".soundpack-cats-2" element
+    But I should not see the ".soundpack-default-1" element
+    And I should not see the ".soundpack-christmas-3" element
+    Then I fill in "input[type='text'].soundpack-search" with ""
+    And I should see the ".soundpack-cats-2" element
+    And I should see the ".soundpack-default-1" element
+    And I should see the ".soundpack-christmas-3" element
 
   Scenario: User is unable to purchase the same soundpack twice
-    Then the "cats" package is displayed in the list
-    And the "cats" package does not have a purchase button
+    Then I should see the ".soundpack-christmas-3 .purchase" element
+    And I should not see the ".soundpack-default-1 .purchase" element
+    And I should not see the ".soundpack-cats-2 .purchase" element
 
-  Scenario: User is prompted to confirm purchase
-    When the user clicks on the purchase button for the "christmas" package
-    Then the user is prompted as follows
-    """
-      Yes, purchase Christmas?
-    """
-    And the prompt has a "Yes" button
-    And the prompt has a "No" button
+  Scenario: Purchase requires confirmation
+    When I click on ".soundpack-christmas-3 .purchase"
+    Then I should see "Yes, purchase Christmas?" in the ".purchase-confirmation-dialog" element
+    And I should see "Yes" in the ".purchase-confirmation-dialog .confirm" element
+    And I should see "Cancel" in the ".purchase-confirmation-dialog .cancel" element
+    Then I click on ".purchase-confirmation-dialog .cancel"
+    And I should not see the ".purchase-confirmation-dialog" element
+    And I should see the ".soundpack-christmas-3 .purchase" element
+    Then I click on ".soundpack-christmas-3 .purchase"
+    And I should see "Yes" in the ".purchase-confirmation-dialog .confirm" element
+    And I should see "Cancel" in the ".purchase-confirmation-dialog .cancel" element
+    Then I click on ".purchase-confirmation-dialog .confirm"
+    And the request for payment is approved
+    And I should not see the ".purchase-confirmation-dialog" element
+    Then I reload the page
+    And I should not see the ".soundpack-christmas-3 .purchase" element
 
   Scenario: User receives confirmed purchase
-    When the user has confirmed purchase of "christmas" package
-    And the request for payment has been approved
-    And the user "chad@gmail.com" has default_package_id 1
-    Then the "christmas" package should now be assigned to the user "chad@gmail.com"
-    And the user "chad@gmail.com" has default_package_id 1
+    Given I am on the homepage
+    Then I should see "Default" in the ".soundpack-typeahead" element

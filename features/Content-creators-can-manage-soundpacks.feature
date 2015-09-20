@@ -13,67 +13,88 @@ Feature: Creators can manage soundpacks
       | 2  | cats      |
       | 3  | christmas |
     And the following sounds:
-      | id | filename   | loop  | pack_id |
-      | 1  | bell1.mp3  | true  | 1       |
-      | 2  | bell2.mp3  | false | 1       |
-      | 3  | bell3.mp3  | false | 2       |
-      | 4  | bell4.mp3  | true  | 2       |
+      | id | filename  | loop  | pack_id |
+      | 1  | test.mp3  | true  | 1       |
+      | 2  | test.mp3  | false | 1       |
+      | 3  | test.mp3  | false | 2       |
+      | 4  | test.mp3  | true  | 2       |
+      | 5  | test.mp3  | false | 3       |
     And the following soundpack assignments
       | id | user_id | soundpack_id |
       | 1  | 1       | 1            |
       | 2  | 1       | 2            |
       | 3  | 2       | 1            |
+    And local session "user-username" is "chad"
+    And I am logged in as the creator "chad"
+    And I am on the homepage
 
   Scenario: Creators see soundpack management list
-    Given the creator is logged in
-    When the creator visits "/"
-    Then the creator sees a list of all packages in the database
-    And each package has a delete button
-    And each package has an edit button
-    And each package has a name
-    And each package has a video
+    Then I should see the ".soundpacks" element
+    And I should see ".soundpack-item" in the ".soundpacks" element
+    And I should see 3 ".soundpack-item" elements
+    And I should see 3 ".soundpack-item .delete" elements
+    And I should see 3 ".soundpack-item .edit" elements
+    And I should see 3 ".soundpack-item .name" elements
+    And I should see 3 ".soundpack-item .video" elements
+    And I should see "Default" in the ".soundpack-default-1" element
+    And I should see "Cats" in the ".soundpack-cats-2" element
+    And I should see "Christmas" in the ".soundpack-christmas-3" element
 
   Scenario: Creators can view list of sounds on an existing soundpack
-    Given the creator is logged in
-    When the creator visits "/"
-    And the creator clicks the soundpack edit icon for "cats"
-    Then a list of sounds displays in a dialog
-    And each sound has a name
-    And the name is a human-readable version of the filename
-    And each sound has a name edit icon
-    And each sound has a "play me" link
-    And each sound has a "loop" label and corresponding checkbox
-    And each sound has a "delete" button
+    When I click on ".soundpack-cats-2 .sounds .edit"
+    Then I should see the ".sound-edit-dialog" element
+    And I should see 2 ".sound-item" elements
+    And I should see 2 ".sound-item .name" elements
+    And I should see 2 ".sound-item .name .edit" elements
+    And I should see 2 ".sound-item .play" elements
+    And I should see 2 ".sound-item input[type='checkbox'].loop" elements
+    And I should see 2 ".sound-item .delete" elements
+    And I should see "1" in the ".sound-item-1 .id" element
+    And I should see "Test" in the ".sound-item-1 .name" element
+    And I should see "2" in the ".sound-item-2 .id" element
+    And I should see "Test" in the ".sound-item-2 .name" element
 
   Scenario: Creators can edit the name of sounds from an existing soundpack
-    Given the creator is logged in
-    When the creator visits "/"
-    And the creator clicks the name edit icon for sound with id "1"
-    And the creator types "Candy" into the name edit field
-    And the creator clicks save or presses enter
-    Then the sound with id "1" should now have filename "candy.mp3"
-    And the sound with id "1" should be displayed with name "Candy"
+    When I click on ".soundpack-cats-2 .sounds .edit"
+    And I click on ".sound-item-1 .name .edit"
+    Then I should see ".sound-item-1 input[type='text'].name-edit"
+    And I should see ".sound-item-1 .name-save"
+    When I fill in ".name-edit" with "Candy"
+    And I click on ".name-save"
+    Then I should see "Candy" in the ".sound-item-1 .name" element
+    When I reload the page
+    Then I should see "Candy" in the ".sound-item-1 .name" element
 
   Scenario: Creators can toggle the loop status of sounds from an existing soundpack
-    Given the creator is logged in
-    When the creator visits "/"
-    And the creator clicks the loop status checkbox for sound with id "1"
-    Then the sound with id "1" should have loop status "0"
-    And the sound with id "1" should be displayed with loop status "0"
+    When I click on ".soundpack-cats-2 .sounds .edit"
+    And I click on ".sound-item-1 input[type='checkbox'].loop"
+    And I reload the page
+    And I click on ".soundpack-cats-2 .sounds .edit"
+    Then the ".sound-item-1 input[type='checkbox'].loop" checkbox should be checked
+    When I click on ".sound-item-1 input[type='checkbox'].loop"
+    And I reload the page
+    And I click on ".soundpack-cats-2 .sounds .edit"
+    Then the ".sound-item-1 input[type='checkbox'].loop" checkbox should be unchecked
 
   Scenario: Creators can delete sounds from an existing soundpack
-    Given the creator is logged in
-    When the creator visits "/"
-    And the creator clicks the delete icon for sound with id "1"
-    And the user confirms they wish to delete the sound
-    Then the sound with id "1" should be removed from the soundpack
-    And the sound with id "1" should not be displayed on the soundlist for package "default"
+    When I click on ".soundpack-cats-2 .sounds .edit"
+    And I click on ".sound-item-1 .delete"
+    Then I should see the ".sound-delete-confirmation-dialog" element
+    And I should see "Really delete Test sound from Cats soundpack?" in the ".sound-delete-confirmation-dialog"
+    And I should see "Yes" in the ".sound-delete-confirmation-dialog .confirm" element
+    And I should see "Cancel" in the ".purchase-confirmation-dialog .cancel" element
+    And I click on ".sound-delete-confirmation-dialog .cancel"
+    And I should see the ".sound-item-1" element
+    When I click on ".sound-item-1 .delete"
+    Then I should see the ".sound-delete-confirmation-dialog" element
+    When I click on ".sound-delete-confirmation-dialog .confirm"
+    Then I should not see the ".sound-item-1" element
+    When I reload the page
+    Then I should not see the ".sound-item-1" element
 
   Scenario: Creators can create soundpacks
-    Given the creator is logged in
-    When the creator visits "/"
-    And the creator clicks the "add" button for soundpacks
-    And the creator enters a unique name for the soundpack
+    When I click on ".soundpacks .add"
+    Then I should see the ".soundpack-add-dialog" element
     And the creator successfully uploads a video
     And the creator adds atleast one sound
     And the creator clicks save or presses enter

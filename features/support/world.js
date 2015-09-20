@@ -11,7 +11,7 @@ function World(callback) {
     if (child) {
       child.kill();
     }
-    child = fork('SOUNDBOARD_DATASOURCE=testDb SOUNDBOARD_MIGRATE=drop node ' . process.env.API_APP_PATH);
+    child = fork('SOUNDBOARD_DATASOURCE=mysqlTest SOUNDBOARD_MIGRATE=drop node ' . process.env.API_APP_PATH);
   }
 
   this.browser = new zombie(); // this.browser will be available in step definitions
@@ -19,6 +19,8 @@ function World(callback) {
   this.visit = function (url, callback) {
     this.browser.visit(url, callback);
   };
+
+  this.refreshApi(); // make sure API is running before we start
 
   callback(); // tell Cucumber we're finished and to use 'this' as the world instance
 }

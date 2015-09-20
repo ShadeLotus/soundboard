@@ -43,5 +43,9 @@
     "vinyl-paths": "^1.0.0",
     "wiredep": "^2.2.2",
     "xml2js": "^0.4.9"
+  },
+  "dependencies": {
+    "dotenv": "^1.2.0",
+    "zombie": "^4.1.0"
   }
 }

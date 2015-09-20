@@ -4,14 +4,15 @@ var zombie = require('zombie');
 var fork = require('child_process').fork;
 
 function World(callback) {
-  //TODO: bootstrap api with test database
-  var child = fork('SOUNDBOARD_DATASOURCE=testDb node ' . process.env.API_APP_PATH);
+  var child;
 
-  // setup helper for wiping the database
-  // hrm so what's the best way to make a global method for cucumber...
-  // looks like it might be to attach it to 'this'
-  //basically, we want to make a custom datasource and... wipe it... between tests
-  //sails disk should be fine for this
+  // helper for init'ing the API with a fresh test database
+  this.refreshApi = function() {
+    if (child) {
+      child.kill();
+    }
+    child = fork('SOUNDBOARD_DATASOURCE=testDb SOUNDBOARD_MIGRATE=drop node ' . process.env.API_APP_PATH);
+  }
 
   this.browser = new zombie(); // this.browser will be available in step definitions
 

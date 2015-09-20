@@ -24,3 +24,6 @@
 *.sublime-project
 *.sublime-workspace
 *.sw*
+
+# private
+.env

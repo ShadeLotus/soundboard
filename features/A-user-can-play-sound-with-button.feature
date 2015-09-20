@@ -17,15 +17,15 @@ Feature: User can play one of the sounds in their soundpack
     And the following soundpack assignments
       | id | user_id | soundpack_id |
       | 1  | 1       | 1            |
-    And the user's email address is chad@gmail.com
+    And the user's email is "chad@gmail.com"
     And the user is logged in
 
   Scenario: User visits their homepage
-    When the user visits '/'
+    When the user visits "/"
     Then the user should see one button for each sound in their default_soundpack
 
   Scenario: User starts a sound by pressing a sound button
-    When the user visits '/'
+    When the user visits "/"
     And the user clicks on the first button
     Then the audio element for the first button should start to play
 

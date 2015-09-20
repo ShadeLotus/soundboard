@@ -21,9 +21,9 @@ Feature: Users can purchase soundpacks
       | id | user_id | soundpack_id |
       | 1  | 1       | 1            |
       | 2  | 1       | 2            |
-    And the user's email address is chad@gmail.com
+    And the user's email is "chad@gmail.com"
     And the user is logged in
-    And the user visits '/packages'
+    And the user visits "/packages"
 
   Scenario: User sees complete list of soundpacks available on purchase page
     Then the user sees each package in the database
@@ -42,32 +42,32 @@ Feature: Users can purchase soundpacks
 
   Scenario: User can search list of soundpacks
     When the user clicks in the search box
-    And the user types 'cats'
-    Then the user sees only the 'cats' package
+    And the user types "cats"
+    Then the user sees only the "cats" package
 
   Scenario: Clearing out a search refreshes the package list
     When the user clicks in the search box
-    And the user types 'cats'
-    And the user sees only the 'cats' package
-    And the user deletes 'cats' form the search box
+    And the user types "cats"
+    And the user sees only the "cats" package
+    And the user deletes "cats" form the search box
     Then the user sees each package in the database
 
   Scenario: User is unable to purchase the same soundpack twice
-    Then the 'cats' package is displayed in the list
-    And the 'cats' package does not have a purchase button
+    Then the "cats" package is displayed in the list
+    And the "cats" package does not have a purchase button
 
   Scenario: User is prompted to confirm purchase
-    When the user clicks on the purchase button for the 'christmas' package
+    When the user clicks on the purchase button for the "christmas" package
     Then the user is prompted as follows
     """
       Yes, purchase Christmas?
     """
-    And the prompt has a 'Yes' button
-    And the prompt has a 'No' button
+    And the prompt has a "Yes" button
+    And the prompt has a "No" button
 
   Scenario: User receives confirmed purchase
-    When the user has confirmed purchase of 'christmas' package
+    When the user has confirmed purchase of "christmas" package
     And the request for payment has been approved
-    And the user 'chad@gmail.com' has default_package_id 1
-    Then the 'christmas' package should now be assigned to the user 'chad@gmail.com'
-    And the user 'chad@gmail.com' has default_package_id 1
+    And the user "chad@gmail.com" has default_package_id 1
+    Then the "christmas" package should now be assigned to the user "chad@gmail.com"
+    And the user "chad@gmail.com" has default_package_id 1

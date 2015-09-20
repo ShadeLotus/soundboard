@@ -20,11 +20,11 @@ Feature: Progress bar on sound buttons
     And user chad@gmail.com is logged in
 
   Scenario: A progress indicator visually track currentTime against duration
-    When the user visits '/'
+    When the user visits "/"
     And the user clicks on the first button
     And the user waits for half of the sound's duration
     Then a progress bar should display on the button indicating 50% completion
 
   Scenario: Progress bar is not visible by default
-    When the user visits '/'
+    When the user visits "/"
     Then a progress bar should not be display on any buttons

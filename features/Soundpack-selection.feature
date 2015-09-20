@@ -24,43 +24,43 @@ Feature: User can pick from their soundpacks
       | 2  | 1       | 2            |
       | 3  | 2       | 1            |
 
-  Scenario: User with 'default' default_soundpack_id logs in and sees the 'default' soundpack
-    Given the user's email is lotus@gmail.com
-    When the user visits '/'
-    Then the user sees one button for each sound in the 'default' soundpack
+  Scenario: User with "default" default_soundpack_id logs in and sees the "default" soundpack
+    Given the user's email is "lotus@gmail.com"
+    When the user visits "/"
+    Then the user sees one button for each sound in the "default" soundpack
 
-  Scenario: User with 'christmas' default_soundpack_id logs in and sees the 'christmas' soundpack
-    Given the user's email is chad@gmail.com
-    When the user visits '/'
-    Then the user sees one button for each sound in the 'christmas' soundpack
+  Scenario: User with "christmas" default_soundpack_id logs in and sees the "christmas" soundpack
+    Given the user's email is "chad@gmail.com"
+    When the user visits "/"
+    Then the user sees one button for each sound in the "christmas" soundpack
 
   Scenario: User is presented with a sound selection type-ahead on the homepage
-    Given the user's email is chad@gmail.com
-    When the user visits '/'
+    Given the user's email is "chad@gmail.com"
+    When the user visits "/"
     Then the user should see a type-ahead
 
   Scenario: User with more than one soundpack can see each soundpack in the type-ahead list
-    Given the user's email is chad@gmail.com
-    When the user visits '/'
+    Given the user's email is "chad@gmail.com"
+    When the user visits "/"
     And the user clicks on the type-ahead list
     Then the user sees a list of all of their soundpacks
 
   Scenario: User can search their soundpacks via the type-ahead text field
-    Given the user's email is chad@gmail.com
-    When the user visits '/'
+    Given the user's email is "chad@gmail.com"
+    When the user visits "/"
     And the user clicks in the type-ahead text field
-    And the user enters 'christmas' in the text field
-    Then the user should only see 'christmas' in the type-ahead list
+    And the user enters "christmas" in the text field
+    Then the user should only see "christmas" in the type-ahead list
 
   Scenario: User with more than one soundpack can select between them
-    Given the user's email is chad@gmail.com
-    When the user visits '/'
-    And the user clicks on the 'christmas' soundpack in the type-ahead list
-    Then the user sees one button for each sound in the 'christmas' soundpack
+    Given the user's email is "chad@gmail.com"
+    When the user visits "/"
+    And the user clicks on the "christmas" soundpack in the type-ahead list
+    Then the user sees one button for each sound in the "christmas" soundpack
 
   Scenario: User with only one soundpack is prompted to add more soundpacks when trying to change soundpacks
-    Given the user's email is lotus@gmail.com
-    When the user visits '/'
+    Given the user's email is "lotus@gmail.com"
+    When the user visits "/"
     And the user clicks on the type-ahead list
     Then the user is notified that they can add more soundpacks
-    And the user is offered a link to '/packages'
+    And the user is offered a link to "/packages"

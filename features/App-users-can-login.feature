@@ -13,7 +13,7 @@ Feature: New and existing app users can login
 
 
   Scenario: A new app user can login with google oauth
-    Given the google email address for the user is purple@gmail.com
+    Given the user's email address is "purple@gmail.com"
     When the user successfully completes an oauth request
     Then purple@gmail.com is saved as a user record
     And an accessToken should be saved for the user
@@ -21,7 +21,7 @@ Feature: New and existing app users can login
     And the user should see their homepage
 
   Scenario: An existing app user can login
-    Given the google email address for the user is chad@gmail.com
+    Given the user's email address is "chad@gmail.com"
     And the current accessToken for the user is 1.2.3.4.5-thats-amazing
     When the user successfully completes an oauth request
     Then a new accessToken should be saved to the user
@@ -30,7 +30,7 @@ Feature: New and existing app users can login
     And the user should see their homepage
 
   Scenario: An unauthorized user tries to access their homepage
-    Given the google email addres for the user is chad@gmail.com
+    Given the user's email address is "chad@gmail.com"
     And the current accessToken for the user is 1.2.3.4.5-thats-amazing
     When the user visits '/' in the app
     Then the user is redirected to '/login'

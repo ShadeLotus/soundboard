@@ -51,7 +51,7 @@ Feature: User can pick from their soundpacks
       | default   | christmas |
       | christmas | default   |
 
-  Scenario: User with more than one soundpack can select between them
+  Scenario Outline: User with more than one soundpack can select between them
     When I click on ".soundpack-option.soundpack-<soundpack>"
     Then I should see <count> ".sound-button" elements
 

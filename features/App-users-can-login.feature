@@ -20,7 +20,7 @@ Feature: New and existing app users can login
       | 1  | 1       | 1            |
 
 
-  Scenario: App user can login with google oauth
+  Scenario Outline: App user can login with google oauth
     Given local session "user-email" is "<email>"
     When I click 'button.login'
     And I wait for 5 seconds
@@ -32,7 +32,7 @@ Feature: New and existing app users can login
       | chad@gmail.com |
       | nada@gmail.com |
 
-  Scenario: An authorized user is not redirected
+  Scenario Outline: An authorized user is not redirected
     Given local session "user-accessToken" is "testToken"
     When I am on the homepage
     And I wait for 5 seconds

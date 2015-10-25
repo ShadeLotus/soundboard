@@ -8,7 +8,7 @@ Feature: Creators can login
       | id | username             | password         |
       | 1  | chad                 | sha256("12345")  |
 
-  Scenario: Unauthorized requests are redirected
+  Scenario Outline: Unauthorized requests are redirected
     Given local session "accessToken" is "<token>" creator does not have an active session
     When I am on the homepage
     And I wait 2 seconds
@@ -21,7 +21,7 @@ Feature: Creators can login
       | invalid   |
       |           |
 
-  Scenario: Creator can login
+  Scenario Outline: Creator can login
     When I am on "/login"
     And I fill in "input[type='text'].username" with "<user>"
     And I fill in "input[type='password'].password" with "<pass>"

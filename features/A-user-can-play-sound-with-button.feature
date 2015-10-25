@@ -4,6 +4,7 @@ Feature: User can play one of the sounds in their soundpack
   So that I can enhance my life with sound clips
 
   Background:
+    Given I browse "http://localhost:9000"
     Given a fresh API
     And the following sound packs:
       | id | name      | video    |
